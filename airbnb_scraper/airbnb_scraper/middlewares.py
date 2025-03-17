@@ -4,22 +4,6 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-import random
-
-class ProxyMiddleWare(object):
-    def __init__(self, proxies):
-        self.proxies = proxies
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(
-            proxies=crawler.settings.get('PROXIES')
-        )
-
-    def process_request(self, request, spider):
-        if self.proxies:
-            proxy = random.choice(self.proxies)
-            request.meta['proxy'] = proxy
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter

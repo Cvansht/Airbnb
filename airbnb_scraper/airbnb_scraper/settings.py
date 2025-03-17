@@ -14,28 +14,6 @@ NEWSPIDER_MODULE = "airbnb_scraper.spiders"
 ITEM_PIPELINES = {
     'airbnb_scraper.pipelines.AirbnbScraperPipeline': 300,
 }
-OFFSITE_DOMAINS = ['airbnb.com', 'airbnb.co.in']
-
-
-COOKIES_ENABLED = True
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy_selenium.SeleniumMiddleware': 800,
-}
-SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = '/path/to/chromedriver'  # Fallback path
-SELENIUM_DRIVER_ARGUMENTS = ['--headless']  # Optional
-DOWNLOAD_DELAY = 2
-RANDOMIZE_DOWNLOAD_DELAY = True
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/115.0'
-DOWNLOAD_DELAY = 2
-RANDOMIZE_DOWNLOAD_DELAY = True
-PROXIES = [
-    'http://proxy1:port',
-    'http://proxy2:port',
-]
-
-
-
 
 
 
@@ -44,6 +22,10 @@ PROXIES = [
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+}
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -116,3 +98,10 @@ ROBOTSTXT_OBEY = True
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+ROBOTSTXT_OBEY = False
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+}
+
