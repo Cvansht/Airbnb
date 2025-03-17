@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import AirbnbListing
+from .models import Listing
 
-class AirbnbListingSerializer(serializers.ModelSerializer):
+class ListingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AirbnbListing
+        model = Listing
         fields = '__all__'

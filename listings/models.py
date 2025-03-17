@@ -1,6 +1,6 @@
 from django.db import models
 
-class AirbnbListing(models.Model):
+class Listing(models.Model):
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     address = models.TextField()
