@@ -1,15 +1,51 @@
 import scrapy
 from airbnb_scraper.items import AirbnbScraperItem
+from scrapy_selenium import SeleniumRequest
+
+import scrapy
+from scrapy_selenium import SeleniumRequest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import random
 
 class AirbnbSpider(scrapy.Spider):
-    name = "airbnb"
-    allowed_domains = ["airbnb.com"]
-    start_urls = [
-        "https://www.airbnb.com/s/New-York--NY/homes"  # Example URL, change dynamically later
+    name = 'airbnb'
+    start_urls = ['https://www.airbnb.com/s/Paris--France/homes']
+    PROXIES = [
+        'http://proxy1:port',
+        'http://proxy2:port',
+        # Add your proxy list here
     ]
 
+    def get_driver(self, proxy):
+        chrome_options = Options()
+        chrome_options.add_argument(f'--proxy-server={proxy}')
+        # Optional: Run headless to reduce resource use
+        chrome_options.add_argument('--headless')
+        driver = webdriver.Chrome(
+            service=Service('/path/to/chromedriver'),  # Update with your chromedriver path
+            options=chrome_options
+        )
+        return driver
+
+    def start_requests(self):
+        for url in self.start_urls:
+            proxy = random.choice(self.PROXIES) if self.PROXIES else None
+            yield SeleniumRequest(
+                url=url,
+                wait_time=5,
+                callback=self.parse,
+                meta={'proxy': proxy},  # Pass proxy to middleware (optional)
+                driver=self.get_driver(proxy)  # Custom driver with proxy
+            )
+
     def parse(self, response):
-        listings = response.css("div._gig1e7")
+        # Extract data from response.text
+        listings = response.css('div[itemprop="itemListElement"]')
+        for listing in listings:
+            title = listing.css('div._1xzimi1::text').get()
+            yield {'title': title}
 
         for listing in listings:
             item = AirbnbScraperItem()

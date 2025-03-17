@@ -14,6 +14,27 @@ NEWSPIDER_MODULE = "airbnb_scraper.spiders"
 ITEM_PIPELINES = {
     'airbnb_scraper.pipelines.AirbnbScraperPipeline': 300,
 }
+OFFSITE_DOMAINS = ['airbnb.com', 'airbnb.co.in']
+
+
+COOKIES_ENABLED = True
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_selenium.SeleniumMiddleware': 800,
+}
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = '/path/to/chromedriver'  # Fallback path
+SELENIUM_DRIVER_ARGUMENTS = ['--headless']  # Optional
+DOWNLOAD_DELAY = 2
+RANDOMIZE_DOWNLOAD_DELAY = True
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/115.0'
+DOWNLOAD_DELAY = 2
+RANDOMIZE_DOWNLOAD_DELAY = True
+PROXIES = [
+    'http://proxy1:port',
+    'http://proxy2:port',
+]
+
+
 
 
 
